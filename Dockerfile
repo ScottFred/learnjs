@@ -31,9 +31,13 @@ RUN userdel -f node &&\
    install -d -m 0755 -o node -g node /home/node &&\
    chown -R node /usr/local/lib /usr/local/include /usr/local/share /usr/local/bin &&\
    (cd "$USER_HOME_DIR"; su node -c "npm install -g @angular/cli@$NG_CLI_VERSION; npm install -g serverless; npm install -g yarn; chmod +x /usr/local/bin/yarn; npm cache clean --force") &&\
+   apt-get update &&\
+   apt-get install -y python &&\
+   apt-get install -y python-pip &&\
+   pip install awscli &&\
    git config --global user.email ${GIT_USER_EMAIL} &&\
    git config --global user.name ${GIT_USER_NAME}
    
 WORKDIR $APP_DIR
 EXPOSE 9292 
-USER scott
+USER $USER_ID
